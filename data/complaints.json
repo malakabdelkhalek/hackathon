@@ -1,0 +1,37 @@
+[
+  {
+    "id": "COMP-001",
+    "client_id": "CL-003",
+    "timestamp": "2026-05-06T09:00:00",
+    "text": "I was charged twice for the same transaction on May 1st, amount 250 euros. I want a refund immediately.",
+    "status": "pending"
+  },
+  {
+    "id": "COMP-002",
+    "client_id": "CL-001",
+    "timestamp": "2026-05-06T10:30:00",
+    "text": "My card was blocked without any explanation while I was traveling in Spain. This is unacceptable.",
+    "status": "pending"
+  },
+  {
+    "id": "COMP-003",
+    "client_id": "CL-005",
+    "timestamp": "2026-05-07T14:00:00",
+    "text": "I never received the investment product disclosure documents before signing. I believe this violates MiFID II regulations.",
+    "status": "pending"
+  },
+  {
+    "id": "COMP-004",
+    "client_id": "CL-002",
+    "timestamp": "2026-05-07T16:00:00",
+    "text": "I want all my personal data deleted from your systems immediately under GDPR Article 17 right to erasure.",
+    "status": "pending"
+  },
+  {
+    "id": "COMP-005",
+    "client_id": "CL-003",
+    "timestamp": "2026-05-08T11:00:00",
+    "text": "The mobile app has been broken for 3 days and I cannot access my account. I need this fixed urgently.",
+    "status": "pending"
+  }
+]

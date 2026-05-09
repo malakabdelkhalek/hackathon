@@ -1,0 +1,26 @@
+AML TYPOLOGIES — FATF REFERENCE DOCUMENT
+
+TYPOLOGY 1: SMURFING (STRUCTURING)
+Definition: Breaking down large amounts into smaller transactions to avoid reporting thresholds.
+Indicators: Multiple transactions just below 10,000 EUR threshold, same destination account, short time intervals between transactions.
+Reference: FATF Recommendation 16, AML 6th Directive Article 3.
+
+TYPOLOGY 2: LAYERING VIA OFFSHORE ACCOUNTS
+Definition: Moving funds through multiple jurisdictions to obscure the origin of funds.
+Indicators: Transfers to Malta, Cyprus, UAE, British Virgin Islands. Vague memos such as consulting or invoice with no supporting documentation.
+Reference: FATF Recommendation 13.
+
+TYPOLOGY 3: POLITICALLY EXPOSED PERSONS (PEP) TRANSACTIONS
+Definition: Transactions involving PEPs carry elevated risk of corruption and bribery.
+Indicators: PEP status confirmed, large transfers, offshore destinations, no clear business purpose documented.
+Reference: AML 6th Directive Article 20.
+
+TYPOLOGY 4: RAPID MOVEMENT OF FUNDS
+Definition: Funds transferred in and out of an account within 48 hours.
+Indicators: Large credit followed immediately by large debit, no business explanation provided.
+Reference: FATF Recommendation 20.
+
+TYPOLOGY 5: INCONSISTENT TRANSACTION PROFILE
+Definition: Transaction volume or type inconsistent with client declared source of funds.
+Indicators: Retail client with salary income making large corporate-sized transfers repeatedly.
+Reference: FATF Recommendation 10, NORDA Internal Policy KYC-07.

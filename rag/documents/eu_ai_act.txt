@@ -1,0 +1,25 @@
+EU AI ACT — RELEVANT PROVISIONS FOR BANKING AI SYSTEMS
+
+ARTICLE 6 — HIGH RISK CLASSIFICATION:
+AI systems used in credit scoring, fraud detection, and AML monitoring are classified as HIGH RISK under Annex III.
+High-risk AI systems must meet strict requirements before deployment.
+
+ARTICLE 9 — RISK MANAGEMENT:
+High-risk AI systems must implement a continuous risk management system.
+Risks must be identified, analyzed, and mitigated on an ongoing basis.
+Risk management documentation must be maintained and updated.
+
+ARTICLE 13 — TRANSPARENCY AND EXPLAINABILITY:
+High-risk AI systems must be transparent in their operation.
+Users must be informed when interacting with an AI system.
+All decisions must be explainable in plain language to affected persons.
+
+ARTICLE 14 — HUMAN OVERSIGHT:
+High-risk AI systems must allow meaningful human oversight.
+Humans must be able to intervene, override, and suspend AI decisions.
+This requirement is mandatory for all AI systems affecting individual rights or financial decisions.
+
+ARTICLE 17 — QUALITY MANAGEMENT AND AUDIT:
+Documentation of AI system purpose, logic, and training data required.
+Every decision must be logged and traceable to the specific AI version.
+Audit trails must be maintained for minimum 10 years in financial services.

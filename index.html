@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL — NORDA Bank Compliance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060d1a;
+      --bg2:       #0b1628;
+      --accent:    #00d4aa;
+      --accent2:   #0096ff;
+      --danger:    #ff4c6a;
+      --text:      #e8edf5;
+      --muted:     #6b7a99;
+      --border:    rgba(0, 212, 170, 0.18);
+      --glass-bg:  rgba(11, 22, 40, 0.82);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* ── Canvas background ── */
+    #bg-canvas {
+      position: fixed; inset: 0; z-index: 0;
+    }
+
+    /* ── Layout ── */
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Header brand ── */
+    .brand {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeDown 0.7s ease both;
+    }
+    .brand-logo {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 0.4rem;
+    }
+    .brand-icon {
+      width: 44px; height: 44px;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 20px rgba(0, 212, 170, 0.3);
+    }
+    .brand-name {
+      font-size: 2rem; font-weight: 700; letter-spacing: 0.15em;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .brand-sub {
+      font-size: 0.78rem; color: var(--muted); letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Login card ── */
+    .card {
+      width: 100%; max-width: 420px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.2rem 2.4rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 60px rgba(0, 0, 0, 0.5), 0 0 1px rgba(0, 212, 170, 0.3) inset;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+    .card-title {
+      font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+    .card-hint {
+      font-size: 0.78rem; color: var(--muted); margin-bottom: 1.6rem;
+    }
+
+    /* ── Form ── */
+    .field { margin-bottom: 1.1rem; }
+    label {
+      display: block; font-size: 0.72rem; font-weight: 500;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(107, 122, 153, 0.3);
+      border-radius: 8px;
+      padding: 0.65rem 0.9rem;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]:focus, input[type="password"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.12);
+    }
+    input::placeholder { color: var(--muted); }
+
+    /* ── CAPTCHA ── */
+    .captcha-box {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(107, 122, 153, 0.25);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.3rem;
+      transition: border-color 0.2s;
+    }
+    .captcha-box.verified { border-color: var(--accent); }
+    .captcha-checkbox {
+      width: 20px; height: 20px; cursor: pointer;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+    .captcha-label { font-size: 0.85rem; color: var(--text); flex: 1; }
+    .captcha-status {
+      font-size: 1.1rem;
+      transition: opacity 0.3s;
+    }
+    .captcha-status.hidden { opacity: 0; }
+
+    /* ── Math challenge (shown after checkbox) ── */
+    .math-challenge {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: rgba(0, 212, 170, 0.06);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 8px;
+    }
+    .math-challenge.active { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .math-q { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent); }
+    .math-input {
+      width: 70px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(107,122,153,0.4);
+      border-radius: 6px;
+      padding: 0.35rem 0.5rem;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      outline: none;
+      text-align: center;
+    }
+    .math-input:focus { border-color: var(--accent); }
+    .math-err { font-size: 0.75rem; color: var(--danger); width: 100%; }
+
+    /* ── Submit button ── */
+    .btn-login {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #00a882 100%);
+      border: none; border-radius: 8px;
+      color: #060d1a; font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.35);
+    }
+    .btn-login:hover:not(:disabled) {
+      opacity: 0.9; transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(0, 212, 170, 0.5);
+    }
+    .btn-login:active:not(:disabled) { transform: translateY(0); }
+    .btn-login:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Error / loader ── */
+    .error-msg {
+      display: none;
+      margin-top: 0.9rem;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 76, 106, 0.12);
+      border: 1px solid rgba(255, 76, 106, 0.4);
+      border-radius: 7px;
+      font-size: 0.8rem; color: var(--danger);
+    }
+    .error-msg.visible { display: block; }
+    .spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid #060d1a; border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+
+    /* ── Stats strip ── */
+    .stats {
+      display: flex; gap: 2rem;
+      margin-top: 2rem;
+      animation: fadeUp 0.7s ease 0.25s both;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.68rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-top: 0.15rem;
+    }
+    .stat-sep {
+      width: 1px; background: rgba(107,122,153,0.25);
+      align-self: stretch;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      position: fixed; bottom: 1.2rem;
+      font-size: 0.7rem; color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.05em;
+      animation: fadeUp 0.7s ease 0.35s both;
+    }
+    .footer span { color: var(--accent); }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Pulse on verified ── */
+    @keyframes pulseGreen {
+      0%, 100% { box-shadow: 0 8px 60px rgba(0,0,0,0.5), 0 0 1px rgba(0,212,170,0.3) inset; }
+      50%       { box-shadow: 0 8px 60px rgba(0,0,0,0.5), 0 0 20px rgba(0,212,170,0.2) inset; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="page">
+
+  <div class="brand">
+    <div class="brand-logo">
+      <div class="brand-icon">🛡</div>
+      <div class="brand-name">SENTINEL</div>
+    </div>
+    <div class="brand-sub">NORDA Bank &mdash; Autonomous Compliance System</div>
+  </div>
+
+  <div class="card" id="login-card">
+    <div class="card-title">Operator Access</div>
+    <div class="card-hint">Zero Trust authentication required</div>
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="operator" autocomplete="username" />
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="••••••••••••" autocomplete="current-password" />
+    </div>
+
+    <!-- CAPTCHA -->
+    <div class="captcha-box" id="captcha-box">
+      <input type="checkbox" class="captcha-checkbox" id="captcha-check" />
+      <span class="captcha-label">I am not a robot</span>
+      <span class="captcha-status hidden" id="captcha-status">✓</span>
+    </div>
+
+    <div class="math-challenge" id="math-challenge">
+      <span class="math-q" id="math-q"></span>
+      <span style="color:var(--muted);font-size:0.85rem;">=</span>
+      <input type="text" class="math-input" id="math-ans" placeholder="?" maxlength="4" />
+      <span class="math-err" id="math-err" style="display:none">Incorrect answer — try again</span>
+    </div>
+
+    <button class="btn-login" id="login-btn" disabled>Sign In</button>
+
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value" id="c-tx">0</div>
+      <div class="stat-label">TX / day</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-value" id="c-cl">0</div>
+      <div class="stat-label">Clients</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <div class="stat-value" id="c-reg">0</div>
+      <div class="stat-label">Regulations</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  HACK'N'BIZ 2026 &mdash; Fortum Junior Entreprise &mdash; <span>NORDA Bank</span>
+</div>
+
+<script>
+/* ──────────────────── Animated canvas background ──────────────────── */
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, dots = [], lines = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Grid lines
+  function drawGrid() {
+    ctx.strokeStyle = 'rgba(0, 212, 170, 0.04)';
+    ctx.lineWidth = 1;
+    const step = 60;
+    for (let x = 0; x < W; x += step) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += step) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+  }
+
+  // Particles
+  function initDots(n) {
+    dots = [];
+    for (let i = 0; i < n; i++) {
+      dots.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.5,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        alpha: Math.random() * 0.6 + 0.2,
+      });
+    }
+  }
+  initDots(60);
+
+  function drawDots() {
+    dots.forEach(d => {
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,212,170,${d.alpha})`;
+      ctx.fill();
+    });
+  }
+
+  function connectDots() {
+    const maxDist = 130;
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const dx = dots[i].x - dots[j].x;
+        const dy = dots[i].y - dots[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.18;
+          ctx.strokeStyle = `rgba(0,212,170,${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(dots[j].x, dots[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function update() {
+    dots.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0 || d.x > W) d.vx *= -1;
+      if (d.y < 0 || d.y > H) d.vy *= -1;
+    });
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    drawGrid();
+    connectDots();
+    drawDots();
+    update();
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ──────────────────── Counter animation ──────────────────── */
+function animateCounter(el, target, suffix, duration) {
+  const start = Date.now();
+  const step = () => {
+    const progress = Math.min((Date.now() - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.round(eased * target);
+    el.textContent = val >= 1000
+      ? (val / 1000).toFixed(val >= 100000 ? 0 : 1) + (val >= 1000000 ? 'M' : 'K') + suffix
+      : val + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    animateCounter(document.getElementById('c-tx'), 800000, '', 1400);
+    animateCounter(document.getElementById('c-cl'), 2300000, '', 1600);
+    animateCounter(document.getElementById('c-reg'), 6, '', 800);
+  }, 400);
+});
+
+/* ──────────────────── CAPTCHA + math challenge ──────────────────── */
+let captchaPassed = false;
+let mathAnswer    = null;
+
+const captchaBox   = document.getElementById('captcha-box');
+const captchaCheck = document.getElementById('captcha-check');
+const captchaStatus = document.getElementById('captcha-status');
+const mathDiv      = document.getElementById('math-challenge');
+const mathQ        = document.getElementById('math-q');
+const mathAns      = document.getElementById('math-ans');
+const mathErr      = document.getElementById('math-err');
+const loginBtn     = document.getElementById('login-btn');
+
+function generateMath() {
+  const ops = ['+', '-', '×'];
+  const op  = ops[Math.floor(Math.random() * ops.length)];
+  let a = Math.floor(Math.random() * 9) + 1;
+  let b = Math.floor(Math.random() * 9) + 1;
+  if (op === '-' && b > a) [a, b] = [b, a];
+  const ans = op === '+' ? a + b : op === '-' ? a - b : a * b;
+  mathAnswer = ans;
+  mathQ.textContent = `${a} ${op} ${b}`;
+}
+
+captchaCheck.addEventListener('change', () => {
+  if (captchaCheck.checked) {
+    generateMath();
+    mathDiv.classList.add('active');
+    captchaStatus.textContent = '?';
+    captchaStatus.classList.remove('hidden');
+    captchaStatus.style.color = 'var(--muted)';
+    mathAns.value = '';
+    mathErr.style.display = 'none';
+    captchaPassed = false;
+    loginBtn.disabled = true;
+  } else {
+    mathDiv.classList.remove('active');
+    captchaStatus.classList.add('hidden');
+    captchaPassed = false;
+    loginBtn.disabled = true;
+    captchaBox.classList.remove('verified');
+  }
+});
+
+mathAns.addEventListener('input', () => {
+  const val = parseInt(mathAns.value.trim(), 10);
+  if (!isNaN(val) && val === mathAnswer) {
+    captchaPassed = true;
+    captchaStatus.textContent = '✓';
+    captchaStatus.style.color = 'var(--accent)';
+    captchaBox.classList.add('verified');
+    mathErr.style.display = 'none';
+    loginBtn.disabled = false;
+  } else {
+    captchaPassed = false;
+    loginBtn.disabled = true;
+    captchaBox.classList.remove('verified');
+  }
+});
+
+mathAns.addEventListener('blur', () => {
+  if (mathAns.value.trim() && !captchaPassed) {
+    mathErr.style.display = 'block';
+  }
+});
+
+/* ──────────────────── Login ──────────────────── */
+const errorMsg = document.getElementById('error-msg');
+
+function showError(msg) {
+  errorMsg.innerHTML = msg;
+  errorMsg.classList.add('visible');
+}
+function clearError() {
+  errorMsg.classList.remove('visible');
+}
+
+async function doLogin() {
+  if (!captchaPassed) return;
+  clearError();
+
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!username || !password) {
+    showError('Please enter your username and password.');
+    return;
+  }
+
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<span class="spinner"></span>Authenticating…';
+
+  try {
+    // FastAPI OAuth2 form-encoded body
+    const body = new URLSearchParams();
+    body.append('username', username);
+    body.append('password', password);
+
+    const resp = await fetch('/auth/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    });
+
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      throw new Error(data.detail || `HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const token = data.access_token;
+
+    // Store for this session
+    sessionStorage.setItem('sentinel_token', token);
+    sessionStorage.setItem('sentinel_role',  data.role);
+    sessionStorage.setItem('sentinel_user',  data.operator);
+
+    // Redirect to Streamlit dashboard with JWT in URL
+    const streamlitUrl = `http://localhost:8501/?token=${encodeURIComponent(token)}`;
+    window.location.href = streamlitUrl;
+
+  } catch (err) {
+    showError(`❌ ${err.message}`);
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = 'Sign In';
+    // Reset CAPTCHA
+    captchaCheck.checked = false;
+    mathDiv.classList.remove('active');
+    captchaStatus.classList.add('hidden');
+    captchaBox.classList.remove('verified');
+    captchaPassed = false;
+    mathAns.value = '';
+    mathErr.style.display = 'none';
+    loginBtn.disabled = true;
+  }
+}
+
+loginBtn.addEventListener('click', doLogin);
+
+// Allow Enter key from any field
+[document.getElementById('username'), document.getElementById('password'), mathAns].forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !loginBtn.disabled) doLogin();
+  });
+});
+</script>
+</body>
+</html>

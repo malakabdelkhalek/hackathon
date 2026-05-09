@@ -1,0 +1,7 @@
+# This file is copied to public/ during build — Netlify picks it up from there.
+# Replace YOUR_BACKEND_URL with your Railway/Render FastAPI URL after deployment.
+
+/auth/*   https://YOUR_BACKEND_URL/auth/:splat   200
+/api/*    https://YOUR_BACKEND_URL/api/:splat    200
+/health   https://YOUR_BACKEND_URL/health        200
+/*        /index.html                            200

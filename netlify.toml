@@ -1,0 +1,38 @@
+[build]
+  publish = "public"
+  command = "mkdir -p public && cp index.html _redirects public/"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.railway.app https://*.render.com http://localhost:8000;"
+
+# Proxy /auth/* → FastAPI backend
+[[redirects]]
+  from   = "/auth/*"
+  to     = "https://YOUR_BACKEND_URL/auth/:splat"
+  status = 200
+  force  = true
+
+# Proxy /api/* → FastAPI backend
+[[redirects]]
+  from   = "/api/*"
+  to     = "https://YOUR_BACKEND_URL/api/:splat"
+  status = 200
+  force  = true
+
+# Proxy /health → FastAPI backend
+[[redirects]]
+  from   = "/health"
+  to     = "https://YOUR_BACKEND_URL/health"
+  status = 200
+  force  = true
+
+# Everything else → index.html
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200

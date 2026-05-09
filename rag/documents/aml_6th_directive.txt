@@ -1,0 +1,24 @@
+EU AML 6TH DIRECTIVE — KEY PROVISIONS SUMMARY
+
+ARTICLE 3 — CRIMINAL OFFENSES:
+Money laundering is a criminal offense across all EU member states.
+Banks must report suspicious activity to Financial Intelligence Units.
+Mandatory reporting threshold: transactions above 10,000 EUR in cash.
+
+ARTICLE 6 — LIABILITY:
+Legal persons including companies can be held liable for AML failures.
+Penalties include fines up to 10 percent of annual turnover.
+
+ARTICLE 7 — SANCTIONS:
+Member states must impose effective sanctions for non-compliance.
+Sanctions must be dissuasive and proportionate to the violation.
+
+ARTICLE 20 — PEP ENHANCED DUE DILIGENCE:
+Politically Exposed Persons require enhanced due diligence procedures.
+Banks must identify source of wealth and source of funds for all PEPs.
+Senior management approval required before establishing PEP relationships.
+
+ARTICLE 23 — SUSPICIOUS TRANSACTION REPORTING:
+Banks must file Suspicious Activity Reports within 24 hours of detection.
+Filing a SAR does not constitute breach of client confidentiality.
+Tipping off a suspected client about a SAR is a criminal offense.
