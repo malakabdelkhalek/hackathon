@@ -23,33 +23,84 @@ def _verify(pw: str, hashed: str) -> bool:
     return bcrypt.checkpw(pw.encode(), hashed.encode())
 
 
-# Three roles: admin > compliance_officer > analyst
+# Five roles: admin > compliance_officer > analyst / soc_analyst / auditor
 # Passwords are bcrypt-hashed — never stored plain-text
 USERS = {
     "admin": {
         "username": "admin",
         "password_hash": _hash("norda_admin_2026"),
         "role": "admin",
-        "full_name": "NORDA Security Admin",
+        "full_name": "System Admin",
+        "department": "Operations",
+        "initials": "SA",
     },
     "operator": {
         "username": "operator",
         "password_hash": _hash("sentinel2026"),
         "role": "compliance_officer",
         "full_name": "NORDA Compliance Officer",
+        "department": "AML & KYC",
+        "initials": "CO",
     },
     "analyst": {
         "username": "analyst",
         "password_hash": _hash("analyst2026"),
         "role": "analyst",
         "full_name": "NORDA Risk Analyst",
+        "department": "Risk Management",
+        "initials": "RA",
+    },
+    "soc_analyst": {
+        "username": "soc_analyst",
+        "password_hash": _hash("soc2026"),
+        "role": "soc_analyst",
+        "full_name": "NORDA SOC Analyst",
+        "department": "Security Operations",
+        "initials": "SA",
+    },
+    "auditor": {
+        "username": "auditor",
+        "password_hash": _hash("audit2026"),
+        "role": "auditor",
+        "full_name": "NORDA Senior Auditor",
+        "department": "Internal Audit",
+        "initials": "AU",
+    },
+    # Named users
+    "thomas.martin": {
+        "username": "thomas.martin",
+        "password_hash": _hash("compliance2026"),
+        "role": "compliance_officer",
+        "full_name": "Thomas Martin",
+        "department": "AML & KYC",
+        "initials": "TM",
+    },
+    "sarah.chen": {
+        "username": "sarah.chen",
+        "password_hash": _hash("itops2026"),
+        "role": "it_officer",
+        "full_name": "Sarah Chen",
+        "department": "Information Technology",
+        "initials": "SC",
+    },
+    "marc.dubois": {
+        "username": "marc.dubois",
+        "password_hash": _hash("legal2026"),
+        "role": "legal_counsel",
+        "full_name": "Marc Dubois",
+        "department": "Legal & Regulatory",
+        "initials": "MD",
     },
 }
 
 ROLE_PERMISSIONS = {
-    "admin":              {"scan", "investigate", "kyc", "approve", "audit", "chat", "admin"},
-    "compliance_officer": {"scan", "investigate", "kyc", "approve", "audit", "chat"},
-    "analyst":            {"scan", "investigate", "kyc", "audit", "chat"},
+    "admin":              {"scan", "investigate", "kyc", "approve", "audit", "chat", "admin", "soc", "fraud", "risk", "it", "legal"},
+    "compliance_officer": {"scan", "investigate", "kyc", "approve", "audit", "chat", "fraud", "risk"},
+    "analyst":            {"scan", "investigate", "kyc", "audit", "chat", "risk"},
+    "soc_analyst":        {"scan", "audit", "chat", "soc", "fraud", "risk"},
+    "auditor":            {"audit", "chat"},
+    "it_officer":         {"scan", "audit", "chat", "soc", "risk", "it"},
+    "legal_counsel":      {"audit", "chat", "risk", "legal"},
 }
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
@@ -63,10 +114,13 @@ def authenticate_operator(username: str, password: str) -> Optional[dict]:
 
 
 def create_access_token(username: str, role: str, full_name: str) -> str:
+    user = USERS.get(username, {})
     payload = {
         "sub": username,
         "role": role,
         "full_name": full_name,
+        "department": user.get("department", ""),
+        "initials": user.get("initials", full_name[:2].upper() if full_name else "??"),
         "permissions": list(ROLE_PERMISSIONS.get(role, [])),
         "iat": datetime.now(timezone.utc),
         "exp": datetime.now(timezone.utc) + timedelta(hours=TOKEN_EXPIRE_HOURS),

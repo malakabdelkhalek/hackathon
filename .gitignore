@@ -6,3 +6,5 @@ chroma_db/
 *.db
 .DS_Store
 audit_log.json
+.vscode/
+.netlify/

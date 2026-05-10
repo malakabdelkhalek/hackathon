@@ -1,5 +1,5 @@
 """
-SENTINEL — Main Entry Point
+NORDA Intelligence Platform — Main Entry Point
 HACK'N'BIZ 2026 | NORDA Bank Challenge
 Starts FastAPI (port 8000) then Streamlit (port 8501).
 """
@@ -13,15 +13,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BANNER = r"""
-███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗
-██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║
-███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║
-╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║
-███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
-╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
+███╗   ██╗ ██████╗ ██████╗ ██████╗  █████╗
+████╗  ██║██╔═══██╗██╔══██╗██╔══██╗██╔══██╗
+██╔██╗ ██║██║   ██║██████╔╝██║  ██║███████║
+██║╚██╗██║██║   ██║██╔══██╗██║  ██║██╔══██║
+██║ ╚████║╚██████╔╝██║  ██║██████╔╝██║  ██║
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝
 
-  NORDA Bank Autonomous Compliance System
-  HACK'N'BIZ 2026 — Fortum Junior Entreprise
+  AI Banking Governance, Compliance, SOC & Behavioral Intelligence
+  HACK'N'BIZ 2026  |  Fortum Junior Entreprise
 """
 
 
@@ -34,12 +34,6 @@ def check_api_key():
         return False
     print(f"  [OK] GROQ_API_KEY loaded (ends with …{key[-6:]})")
 
-    xai_key = os.environ.get("XAI_API_KEY", "")
-    if not xai_key or xai_key == "your_xai_api_key_here":
-        print("  [WARN] XAI_API_KEY not set — AI Assistant will be unavailable.")
-        print("         Get your key at: https://console.x.ai")
-    else:
-        print(f"  [OK] XAI_API_KEY loaded (ends with …{xai_key[-6:]})")
     return True
 
 
@@ -84,7 +78,7 @@ def wait_for_api(timeout: int = 15) -> bool:
 
 def main():
     print(BANNER)
-    print("Initializing SENTINEL...\n")
+    print("Initializing NORDA Intelligence Platform...\n")
 
     if not check_api_key():
         sys.exit(1)
@@ -107,9 +101,11 @@ def main():
     print("  API docs:    http://localhost:8000/docs\n")
     print("=" * 65)
     print("  Demo credentials:")
-    print("    operator / sentinel2026      (Compliance Officer)")
-    print("    admin    / norda_admin_2026  (Security Admin)")
-    print("    analyst  / analyst2026       (Risk Analyst — read-only)")
+    print("    operator    / sentinel2026      (Compliance Officer)")
+    print("    admin       / norda_admin_2026  (Security Admin)")
+    print("    analyst     / analyst2026       (Risk Analyst — read-only)")
+    print("    soc_analyst / soc2026           (SOC Analyst)")
+    print("    auditor     / audit2026         (Auditor — audit & chat)")
     print("=" * 65 + "\n")
 
     dashboard_path = os.path.join(os.path.dirname(__file__), "dashboard", "app.py")

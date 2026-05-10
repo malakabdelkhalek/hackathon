@@ -37,7 +37,7 @@ def chat(req: ChatRequest, claims: dict = Depends(require_permission("chat"))):
     reply = call_grok(messages)
 
     audit_log.log_decision(
-        agent_id="sentinel_assistant_v1.0.0",
+        agent_id="norda_assistant_v1.0.0",
         domain="CHAT",
         action="ai_assistant_query",
         input_snapshot={

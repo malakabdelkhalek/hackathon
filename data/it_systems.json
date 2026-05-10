@@ -1,0 +1,93 @@
+[
+  {
+    "system": "Core Banking System",
+    "status": "operational",
+    "cpu": 67,
+    "memory": 71,
+    "latency_ms": 145,
+    "error_rate": 0.02,
+    "last_incident": "2026-04-12",
+    "uptime_pct": 99.97,
+    "region": "EU-West",
+    "criticality": "CRITICAL",
+    "dora_tier": 1
+  },
+  {
+    "system": "Payment Gateway",
+    "status": "degraded",
+    "cpu": 89,
+    "memory": 85,
+    "latency_ms": 890,
+    "error_rate": 2.1,
+    "last_incident": "2026-05-09",
+    "uptime_pct": 98.12,
+    "region": "EU-West",
+    "criticality": "CRITICAL",
+    "dora_tier": 1
+  },
+  {
+    "system": "AML Engine",
+    "status": "operational",
+    "cpu": 45,
+    "memory": 52,
+    "latency_ms": 203,
+    "error_rate": 0.01,
+    "last_incident": "2026-03-28",
+    "uptime_pct": 99.99,
+    "region": "EU-Central",
+    "criticality": "HIGH",
+    "dora_tier": 1
+  },
+  {
+    "system": "Client Portal",
+    "status": "incident",
+    "cpu": 98,
+    "memory": 94,
+    "latency_ms": 4200,
+    "error_rate": 15.3,
+    "last_incident": "2026-05-10",
+    "uptime_pct": 91.40,
+    "region": "EU-West",
+    "criticality": "HIGH",
+    "dora_tier": 2
+  },
+  {
+    "system": "Fraud Detection Engine",
+    "status": "operational",
+    "cpu": 55,
+    "memory": 61,
+    "latency_ms": 178,
+    "error_rate": 0.05,
+    "last_incident": "2026-04-30",
+    "uptime_pct": 99.95,
+    "region": "EU-Central",
+    "criticality": "CRITICAL",
+    "dora_tier": 1
+  },
+  {
+    "system": "Data Warehouse",
+    "status": "operational",
+    "cpu": 38,
+    "memory": 62,
+    "latency_ms": 340,
+    "error_rate": 0.00,
+    "last_incident": "2026-02-14",
+    "uptime_pct": 99.80,
+    "region": "EU-North",
+    "criticality": "MEDIUM",
+    "dora_tier": 2
+  },
+  {
+    "system": "Identity & Access Management",
+    "status": "operational",
+    "cpu": 29,
+    "memory": 44,
+    "latency_ms": 89,
+    "error_rate": 0.00,
+    "last_incident": "2026-01-20",
+    "uptime_pct": 99.99,
+    "region": "EU-West",
+    "criticality": "CRITICAL",
+    "dora_tier": 1
+  }
+]

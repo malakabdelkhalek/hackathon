@@ -15,13 +15,21 @@ KNOWN_AGENTS = [
     "aml_investigator_v1.0.0",
     "kyc_collector_v1.0.0",
     "kyc_assessor_v1.0.0",
+    "fraud_agent_v1.0.0",
+    "soc_agent_v1.0.0",
+    "insider_threat_agent_v1.0.0",
+    "sentinel_assistant_v1.0.0",
 ]
 
 AGENT_ACTION_WHITELIST = {
-    "aml_monitor_v1.0.0": ["flag_transaction", "calculate_risk"],
-    "aml_investigator_v1.0.0": ["investigate_case", "generate_report", "recommend_action"],
-    "kyc_collector_v1.0.0": ["collect_data", "check_sanctions", "check_pep"],
-    "kyc_assessor_v1.0.0": ["assess_risk", "assign_tier", "generate_kyc_report"],
+    "aml_monitor_v1.0.0":           ["flag_transaction", "calculate_risk"],
+    "aml_investigator_v1.0.0":      ["investigate_case", "generate_report", "recommend_action"],
+    "kyc_collector_v1.0.0":         ["collect_data", "check_sanctions", "check_pep"],
+    "kyc_assessor_v1.0.0":          ["assess_risk", "assign_tier", "generate_kyc_report"],
+    "fraud_agent_v1.0.0":           ["analyze_fraud_event", "score_transaction"],
+    "soc_agent_v1.0.0":             ["analyze_soc_event", "classify_threat"],
+    "insider_threat_agent_v1.0.0":  ["analyze_insider_behavior", "build_profile"],
+    "sentinel_assistant_v1.0.0":    ["ai_assistant_query"],
 }
 
 HIGH_RISK_THRESHOLD = 0.75

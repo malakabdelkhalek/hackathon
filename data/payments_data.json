@@ -1,0 +1,50 @@
+[
+  {
+    "id": "PAY-001", "client_id": "CL-001", "client_name": "Sophie Martin",
+    "type": "sepa_transfer", "amount": 1250.00, "currency": "EUR",
+    "beneficiary": "Mueller GmbH", "beneficiary_country": "Germany",
+    "timestamp": "2026-05-09T08:00:00",
+    "status": "completed", "processing_time_ms": 1200,
+    "risk_score": 5, "flags": []
+  },
+  {
+    "id": "PAY-002", "client_id": "CL-002", "client_name": "Hassan Al-Rashid",
+    "type": "swift_transfer", "amount": 42000.00, "currency": "EUR",
+    "beneficiary": "Malta Trade Corp", "beneficiary_country": "Malta",
+    "timestamp": "2026-05-09T09:15:00",
+    "status": "pending_review", "processing_time_ms": null,
+    "risk_score": 72, "flags": ["high_risk_jurisdiction", "structuring_pattern"]
+  },
+  {
+    "id": "PAY-003", "client_id": "CL-003", "client_name": "Elena Vasquez",
+    "type": "instant_payment", "amount": 80.00, "currency": "EUR",
+    "beneficiary": "Jean Dupont", "beneficiary_country": "France",
+    "timestamp": "2026-05-09T10:30:00",
+    "status": "completed", "processing_time_ms": 340,
+    "risk_score": 3, "flags": []
+  },
+  {
+    "id": "PAY-004", "client_id": "CL-004", "client_name": "Viktor Petrov",
+    "type": "swift_transfer", "amount": 95000.00, "currency": "EUR",
+    "beneficiary": "Cyprus Holdings Ltd", "beneficiary_country": "Cyprus",
+    "timestamp": "2026-05-09T11:00:00",
+    "status": "blocked", "processing_time_ms": null,
+    "risk_score": 95, "flags": ["pep_client", "high_risk_jurisdiction", "anomalous_amount", "aml_alert"]
+  },
+  {
+    "id": "PAY-005", "client_id": "CL-005", "client_name": "Yuki Tanaka",
+    "type": "card_payment", "amount": 340.00, "currency": "EUR",
+    "beneficiary": "Carrefour Hypermarche", "beneficiary_country": "France",
+    "timestamp": "2026-05-09T12:45:00",
+    "status": "completed", "processing_time_ms": 850,
+    "risk_score": 2, "flags": []
+  },
+  {
+    "id": "PAY-006", "client_id": "CL-006", "client_name": "Mohammed Al-Farsi",
+    "type": "swift_transfer", "amount": 200000.00, "currency": "USD",
+    "beneficiary": "Al-Farsi Investments LLC", "beneficiary_country": "UAE",
+    "timestamp": "2026-05-09T14:00:00",
+    "status": "pending_review", "processing_time_ms": null,
+    "risk_score": 88, "flags": ["pep_client", "uae_jurisdiction", "large_amount", "self_dealing_risk"]
+  }
+]

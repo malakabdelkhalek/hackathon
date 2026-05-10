@@ -75,22 +75,21 @@ def node_rag_query(state: AMLInvestigatorState) -> AMLInvestigatorState:
 
 
 def node_llm_investigation(state: AMLInvestigatorState) -> AMLInvestigatorState:
-    prompt = f"""You are a senior AML investigator at NORDA Bank.
-A transaction has been flagged as suspicious. Investigate the full case and write a professional investigation report.
+    prompt = f"""You are a senior AML investigator at NORDA Bank. Produce a concise, action-focused investigation report. Be specific and brief — no generic filler.
 
-Your report must include:
-1. CASE SUMMARY: What was flagged and why
-2. PATTERN ANALYSIS: What patterns you see across all client transactions
-3. REGULATORY ASSESSMENT: Which specific regulations or typologies apply (cite from the retrieved regulations)
-4. RISK CONCLUSION: Your overall assessment
-5. RECOMMENDATION: One of FREEZE_ACCOUNT / FREEZE_TRANSFERS / ENHANCED_MONITORING / CLEAR / ESCALATE_TO_AUTHORITIES
+STRUCTURE (keep each section to 2-3 sentences max):
+1. CASE SUMMARY: What was flagged, amount, destination, specific red flags.
+2. PATTERN ANALYSIS: Key patterns found across client history (e.g. frequency, amounts, counterparties).
+3. REGULATORY BREACH: Cite the exact regulation and article that applies (e.g. FATF R.16, 6AMLD Art.3).
+4. RISK CONCLUSION: One sentence verdict with risk level.
+5. RECOMMENDATION: State exactly ONE action from [FREEZE_ACCOUNT / FREEZE_TRANSFERS / ENHANCED_MONITORING / CLEAR / ESCALATE_TO_AUTHORITIES], then list 2-3 specific next steps (e.g. "File SAR within 24h", "Block outgoing transfers >€5k", "Request source of funds documentation").
 
 Flagged Transaction: {json.dumps(state['transaction'], indent=2)}
 Client Profile: {json.dumps(state['client'], indent=2)}
 All Client Transactions: {json.dumps(state['all_client_transactions'], indent=2)}
-Relevant AML Regulations Retrieved: {state['rag_context']}
+Relevant AML Regulations: {state['rag_context']}
 
-Write your investigation report:"""
+Write the report now (concise, specific, no padding):"""
 
     try:
         llm = ChatGroq(

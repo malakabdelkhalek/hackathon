@@ -2,10 +2,11 @@
 HTTP client for the SENTINEL FastAPI backend.
 Stores the JWT token and injects it as Bearer on every request.
 """
+import os
 import requests
 from typing import Optional
 
-API_BASE = "http://localhost:8000"
+API_BASE = os.environ.get("API_BASE", "http://localhost:8000")
 TIMEOUT = 120
 
 
@@ -140,3 +141,128 @@ def verify_chain(token: str) -> list:
     r = requests.get(f"{API_BASE}/api/audit/verify", headers=_h(token), timeout=10)
     _raise(r)
     return r.json()
+
+
+# ── Fraud ─────────────────────────────────────────────────────────────────────
+
+def get_fraud_events(token: str) -> list:
+    r = requests.get(f"{API_BASE}/api/fraud/events", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def scan_fraud_event(token: str, event: dict) -> dict:
+    r = requests.post(f"{API_BASE}/api/fraud/scan", json={"event": event},
+                      headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def scan_all_fraud(token: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/fraud/scan-all", headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+# ── SOC ───────────────────────────────────────────────────────────────────────
+
+def get_soc_events(token: str) -> list:
+    r = requests.get(f"{API_BASE}/api/soc/events", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def get_employees(token: str) -> list:
+    r = requests.get(f"{API_BASE}/api/soc/employees", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def analyze_soc_event(token: str, event: dict) -> dict:
+    r = requests.post(f"{API_BASE}/api/soc/analyze", json={"event": event},
+                      headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def analyze_all_soc(token: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/soc/analyze-all", headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def analyze_insider(token: str, employee_id: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/soc/insider-threat/{employee_id}",
+                      headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def analyze_all_insider(token: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/soc/insider-threat-all", headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+# ── Risk ──────────────────────────────────────────────────────────────────────
+
+def get_risk_summary(token: str) -> dict:
+    r = requests.get(f"{API_BASE}/api/risk/summary", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def get_risk_thresholds(token: str) -> dict:
+    r = requests.get(f"{API_BASE}/api/risk/thresholds", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def evaluate_risk(token: str, domain: str, factors: dict) -> dict:
+    r = requests.post(f"{API_BASE}/api/risk/evaluate",
+                      json={"domain": domain, "factors": factors},
+                      headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def get_it_systems(token: str) -> list:
+    r = requests.get(f"{API_BASE}/api/it/systems", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def monitor_it_systems(token: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/it/monitor", headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def get_legal_documents(token: str) -> list:
+    r = requests.get(f"{API_BASE}/api/legal/documents", headers=_h(token), timeout=10)
+    _raise(r)
+    return r.json()
+
+
+def review_legal_document(token: str, doc_id: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/legal/review", json={"doc_id": doc_id},
+                      headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def review_all_legal_documents(token: str) -> dict:
+    r = requests.post(f"{API_BASE}/api/legal/review-all", headers=_h(token), timeout=TIMEOUT)
+    _raise(r)
+    return r.json()
+
+
+def send_chat(token: str, messages: list, tutorial: bool = False) -> str:
+    r = requests.post(
+        f"{API_BASE}/api/chat/message",
+        json={"messages": messages, "tutorial": tutorial},
+        headers=_h(token),
+        timeout=40,
+    )
+    _raise(r)
+    return r.json()["reply"]

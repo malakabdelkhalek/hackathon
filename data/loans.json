@@ -1,0 +1,47 @@
+[
+  {
+    "id": "LOAN-001", "client_id": "CL-001", "client_name": "Sophie Martin",
+    "type": "personal_loan", "amount_requested": 15000, "currency": "EUR",
+    "purpose": "home_renovation", "term_months": 48, "interest_rate_pct": 4.2,
+    "credit_score": 780, "debt_to_income_ratio": 0.22,
+    "employment_status": "employed", "collateral": false,
+    "application_date": "2026-05-01", "status": "approved",
+    "risk_rating": "LOW", "officer_notes": "Clean credit history, stable income."
+  },
+  {
+    "id": "LOAN-002", "client_id": "CL-002", "client_name": "Hassan Al-Rashid",
+    "type": "business_loan", "amount_requested": 80000, "currency": "EUR",
+    "purpose": "business_expansion", "term_months": 60, "interest_rate_pct": 6.8,
+    "credit_score": 640, "debt_to_income_ratio": 0.48,
+    "employment_status": "self_employed", "collateral": true,
+    "application_date": "2026-05-03", "status": "under_review",
+    "risk_rating": "MEDIUM", "officer_notes": "High DTI ratio, volatile revenue. Collateral partially offsets."
+  },
+  {
+    "id": "LOAN-003", "client_id": "CL-004", "client_name": "Viktor Petrov",
+    "type": "corporate_credit_line", "amount_requested": 500000, "currency": "EUR",
+    "purpose": "working_capital", "term_months": 12, "interest_rate_pct": 5.5,
+    "credit_score": 590, "debt_to_income_ratio": 0.71,
+    "employment_status": "corporate", "collateral": true,
+    "application_date": "2026-05-05", "status": "pending_compliance",
+    "risk_rating": "HIGH", "officer_notes": "PEP client, offshore source of funds. Mandatory compliance review."
+  },
+  {
+    "id": "LOAN-004", "client_id": "CL-003", "client_name": "Elena Vasquez",
+    "type": "mortgage", "amount_requested": 220000, "currency": "EUR",
+    "purpose": "primary_residence", "term_months": 240, "interest_rate_pct": 3.1,
+    "credit_score": 820, "debt_to_income_ratio": 0.31,
+    "employment_status": "employed", "collateral": true,
+    "application_date": "2026-05-06", "status": "approved",
+    "risk_rating": "LOW", "officer_notes": "Excellent credit score, primary residence as collateral."
+  },
+  {
+    "id": "LOAN-005", "client_id": "CL-006", "client_name": "Mohammed Al-Farsi",
+    "type": "investment_loan", "amount_requested": 750000, "currency": "EUR",
+    "purpose": "real_estate_investment", "term_months": 84, "interest_rate_pct": 7.2,
+    "credit_score": 710, "debt_to_income_ratio": 0.55,
+    "employment_status": "self_employed", "collateral": true,
+    "application_date": "2026-05-07", "status": "pending_compliance",
+    "risk_rating": "HIGH", "officer_notes": "PEP status, UAE-based. Requires AML and compliance sign-off."
+  }
+]

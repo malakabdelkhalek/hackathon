@@ -1,0 +1,67 @@
+[
+  {
+    "id": "DOC-001",
+    "title": "Corporate Loan Agreement — TechCorp SA",
+    "type": "loan_agreement",
+    "risk_level": "HIGH",
+    "pages": 47,
+    "date": "2026-04-15",
+    "counterparty": "TechCorp SA",
+    "jurisdiction": "Luxembourg",
+    "content_summary": "5M EUR loan, 5 year term, floating rate EURIBOR+2.1%, collateral: IP assets and receivables. Borrower has existing debt covenant at 3x EBITDA. Cross-default clause linked to parent company obligations. Change of control clause triggers mandatory prepayment.",
+    "regulatory_tags": ["Basel IV", "CRR III", "IFRS 9"],
+    "status": "pending_review"
+  },
+  {
+    "id": "DOC-002",
+    "title": "GDPR Data Processing Agreement — AnalyticsPro Ltd",
+    "type": "dpa",
+    "risk_level": "MEDIUM",
+    "pages": 12,
+    "date": "2026-05-02",
+    "counterparty": "AnalyticsPro Ltd",
+    "jurisdiction": "Ireland",
+    "content_summary": "Data processing terms with third-party analytics vendor. EU data residency required under Art. 44 GDPR. Sub-processor list includes 3 US-based cloud providers. Standard Contractual Clauses in Annex C. Data retention: 24 months. Breach notification: 48 hours.",
+    "regulatory_tags": ["GDPR Art.28", "GDPR Art.44", "SCCs"],
+    "status": "pending_review"
+  },
+  {
+    "id": "DOC-003",
+    "title": "MiFID II Client Suitability Assessment — Retail Client",
+    "type": "compliance_doc",
+    "risk_level": "LOW",
+    "pages": 8,
+    "date": "2026-05-08",
+    "counterparty": "Jean-Pierre Moreau",
+    "jurisdiction": "France",
+    "content_summary": "Retail client investment profile, moderate risk appetite, equity products approved up to 40% portfolio allocation. Annual income: 85,000 EUR. Experience: 5 years retail investing. Excluded products: leveraged derivatives, structured products above complexity level 3.",
+    "regulatory_tags": ["MiFID II Art.25", "ESMA Guidelines"],
+    "status": "approved"
+  },
+  {
+    "id": "DOC-004",
+    "title": "DORA ICT Third-Party Risk Agreement — CloudCore Inc",
+    "type": "ict_contract",
+    "risk_level": "HIGH",
+    "pages": 31,
+    "date": "2026-04-28",
+    "counterparty": "CloudCore Inc",
+    "jurisdiction": "United States",
+    "content_summary": "Cloud infrastructure contract for core banking workloads. Provider is US-based — data residency SLA requires EU-only processing. DORA Art.28 mandatory clauses present but audit rights clause is insufficiently broad. Exit strategy and concentration risk not adequately addressed. Contract missing Business Continuity requirements per DORA RTS.",
+    "regulatory_tags": ["DORA Art.28", "DORA Art.30", "DORA RTS"],
+    "status": "requires_negotiation"
+  },
+  {
+    "id": "DOC-005",
+    "title": "Basel IV Capital Adequacy Framework — Internal Policy",
+    "type": "internal_policy",
+    "risk_level": "MEDIUM",
+    "pages": 22,
+    "date": "2026-03-01",
+    "counterparty": "Internal — Risk Division",
+    "jurisdiction": "EU",
+    "content_summary": "Updated capital adequacy calculation methodology under CRR III output floor. Credit risk: standardised approach for SME exposures below 1M EUR. Operational risk: Business Indicator Approach adopted. Market risk: revised FRTB standards. Leverage ratio: 3% minimum maintained. Implementation deadline: January 2027.",
+    "regulatory_tags": ["Basel IV", "CRR III", "FRTB"],
+    "status": "approved"
+  }
+]
